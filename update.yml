@@ -1,5 +1,5 @@
 ---
-- hosts: 10.161.43.180
+- hosts: all
   remote_user: edison
   tasks:
   - name: copy nodejs mqtt lib to destionation
