@@ -1,0 +1,73 @@
+---
+- hosts: 10.161.43.180
+  remote_user: edison
+  tasks:
+  - name: copy nodejs mqtt lib to destionation
+    synchronize: src=nodejs/mqtt/ dest=/home/edison/mqtt
+
+  - name: copy nodejs mqtt lib to final location
+    shell: cp -r /home/edison/mqtt/ /usr/lib/nodejs/mqtt
+    become: yes
+
+  - name: remove nodejs mqtt lib from home
+    file: path=/home/edison/mqtt state=absent
+
+  - name: copy new sunseed parser
+    copy: src=nodejs/sunseed-parser.js dest=/usr/lib/nodejs/
+    become: yes
+
+  - name: copy new spm app
+    copy: src=spm dest=/bin/spm mode=0755
+    become: yes
+
+  - name: copy new videk app with updated software version
+    copy: src=videk dest=/bin/videk mode=0755
+    become: yes
+
+  - name: copy new videk rest api client
+    copy: src=videk_rest_client.py dest=/usr/lib/python2.7/
+    become: yes
+
+  - name: copy reboot cron
+    copy: src=cron/reboot dest=/etc/cron.d/reboot
+    become: yes
+
+  - name: copy new videk systemd services
+    copy: src=systemd/videk.service dest=/lib/systemd/system/
+    become: yes
+
+  - name: copy new spm systemd services
+    copy: src=systemd/spm.service dest=/lib/systemd/system/
+    become: yes
+
+  - name: copy new i2conf systemd services
+    copy: src=systemd/i2conf.service dest=/lib/systemd/system/
+    become: yes
+
+  - name: copy new set-hostname systemd services
+    copy: src=systemd/set-hostname.service dest=/lib/systemd/system/
+    become: yes
+
+  - name: remove spm data file
+    file: path=/tmp/spm-data state=absent
+    become: yes
+
+  - name: stop videk-measurement service
+    shell: systemctl stop videk-measurements.service
+    become: yes
+
+  - name: disable videk-measurement service
+    shell: systemctl disable videk-measurements.service
+    become: yes
+
+  - name: systemctl daemon reload
+    shell: systemctl daemon-reload
+    become: yes
+
+  - name: restart spm service
+    shell: systemctl restart spm.service
+    become: yes
+
+  - name: restart videk service
+    shell: systemctl restart videk.service
+    become: yes

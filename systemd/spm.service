@@ -1,0 +1,12 @@
+[Unit]
+Description=SPM serial reader and parser
+Requires=network-online.target
+After=network-online.target edison-machine-id.service
+
+[Service]
+ExecStart=/bin/spm
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=basic.target

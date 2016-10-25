@@ -1,0 +1,10 @@
+[Unit]
+Description=I2C configuration
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "shell='sh'; if [ -f /bin/bash ]; then shell='bash'; fi; /bin/$shell /sbin/i2conf.sh systemd-service"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
