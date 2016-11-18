@@ -1,10 +1,11 @@
 [Unit]
-Description=SPM serial reader and parser
+Description=PMC serial reader and parser
 Requires=network-online.target
 After=network-online.target edison-machine-id.service wams-config.service
 
 [Service]
-ExecStart=/bin/spm
+ExecStart=/bin/pmc
+StandardOutput=null
 Restart=always
 RestartSec=5
 
