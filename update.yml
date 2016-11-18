@@ -2,72 +2,98 @@
 - hosts: all
   remote_user: edison
   tasks:
-  - name: copy nodejs mqtt lib to destionation
-    synchronize: src=nodejs/mqtt/ dest=/home/edison/mqtt
-
-  - name: copy nodejs mqtt lib to final location
-    shell: cp -r /home/edison/mqtt/ /usr/lib/nodejs/mqtt
-    become: yes
-
-  - name: remove nodejs mqtt lib from home
-    file: path=/home/edison/mqtt state=absent
-
   - name: copy new sunseed parser
     copy: src=nodejs/sunseed-parser.js dest=/usr/lib/nodejs/
     become: yes
 
   - name: copy new spm app
-    copy: src=spm dest=/bin/spm mode=0755
+    copy: src=lib/spm dest=/bin/ mode=0755
+    become: yes
+
+  - name: copy new pmc app
+    copy: src=lib/pmc dest=/bin/ mode=0755
+    become: yes
+
+  - name: copy new spm-file app
+    copy: src=lib/spm-file dest=/bin/ mode=0755
+    become: yes
+
+  - name: copy new pmc-file app
+    copy: src=lib/pmc-file dest=/bin/ mode=0755
+    become: yes
+
+  - name: copy new wams-config app
+    copy: src=lib/wams-config dest=/bin/ mode=0755
     become: yes
 
   - name: copy new videk app with updated software version
-    copy: src=videk dest=/bin/videk mode=0755
+    copy: src=lib/videk dest=/bin/ mode=0755
     become: yes
 
   - name: copy new videk rest api client
-    copy: src=videk_rest_client.py dest=/usr/lib/python2.7/
+    copy: src=python/videk_rest_client.py dest=/usr/lib/python2.7/
     become: yes
 
-  - name: copy reboot cron
-    copy: src=cron/reboot dest=/etc/cron.d/reboot
-    become: yes
-
-  - name: copy new videk systemd services
+  - name: copy new videk systemd service
     copy: src=systemd/videk.service dest=/lib/systemd/system/
     become: yes
 
-  - name: copy new spm systemd services
+  - name: copy new videk-register systemd service
+    copy: src=systemd/videk-register.service dest=/lib/systemd/system/
+    become: yes
+
+  - name: copy new spm systemd service
     copy: src=systemd/spm.service dest=/lib/systemd/system/
     become: yes
 
-  - name: copy new i2conf systemd services
-    copy: src=systemd/i2conf.service dest=/lib/systemd/system/
+  - name: copy new pmc systemd service
+    copy: src=systemd/pmc.service dest=/lib/systemd/system/
     become: yes
 
-  - name: copy new set-hostname systemd services
-    copy: src=systemd/set-hostname.service dest=/lib/systemd/system/
+  - name: copy new spm-file systemd service
+    copy: src=systemd/spm-file.service dest=/lib/systemd/system/
     become: yes
 
-  - name: remove spm data file
-    file: path=/tmp/spm-data state=absent
+  - name: copy new pmc-file systemd service
+    copy: src=systemd/pmc-file.service dest=/lib/systemd/system/
     become: yes
 
-  - name: stop videk-measurement service
-    shell: systemctl stop videk-measurements.service
-    become: yes
-
-  - name: disable videk-measurement service
-    shell: systemctl disable videk-measurements.service
+  - name: copy new wams-config systemd service
+    copy: src=systemd/wams-config.service dest=/lib/systemd/system/
     become: yes
 
   - name: systemctl daemon reload
     shell: systemctl daemon-reload
     become: yes
 
-  - name: restart spm service
-    shell: systemctl restart spm.service
+  - name: stop spm service
+    shell: systemctl stop spm.service
     become: yes
 
-  - name: restart videk service
-    shell: systemctl restart videk.service
+  - name: stop pmc service
+    shell: systemctl stop pmc.service
+    become: yes
+
+  - name: disable spm service
+    shell: systemctl disable spm.service
+    become: yes
+
+  - name: disable pmc service
+    shell: systemctl disable pmc.service
+    become: yes
+
+  - name: stop videk service
+    shell: systemctl stop videk.service
+    become: yes
+
+  - name: disable videk service
+    shell: systemctl disable videk.service
+    become: yes
+
+  - name: enable wams-config service
+    shell: systemctl enable wams-config.service
+    become: yes
+
+  - name: start wams-config service
+    shell: systemctl start wams-config.service
     become: yes
