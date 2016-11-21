@@ -62,6 +62,13 @@
     copy: src=systemd/wams-config.service dest=/lib/systemd/system/
     become: yes
 
+  - name: Creates pmc directory
+    file: path=/var/pmc state=directory owner=root group=edison mode=0775
+    become: yes
+
+  - name: copy pmc toggle file
+    copy: src=var/toggle dest=/var/pmc/
+
   - name: systemctl daemon reload
     shell: systemctl daemon-reload
     become: yes
