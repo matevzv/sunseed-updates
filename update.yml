@@ -2,105 +2,18 @@
 - hosts: all
   remote_user: edison
   tasks:
-  - name: copy new sunseed parser
-    copy: src=nodejs/sunseed-parser.js dest=/usr/lib/nodejs/
+  - name: extract dependencies
+    unarchive: src=dependencies.tar.gz dest=/var/lib
     become: yes
 
-  - name: copy new spm app
-    copy: src=lib/spm dest=/bin/ mode=0755
+  - name: install dependencies
+    shell: dpkg -i /var/lib/dependencies/*.deb
     become: yes
 
-  - name: copy new pmc app
-    copy: src=lib/pmc dest=/bin/ mode=0755
+  - name: remove dependencies
+    file: path=/var/lib/dependencies state=absent
     become: yes
 
-  - name: copy new spm-file app
-    copy: src=lib/spm-file dest=/bin/ mode=0755
-    become: yes
-
-  - name: copy new pmc-file app
-    copy: src=lib/pmc-file dest=/bin/ mode=0755
-    become: yes
-
-  - name: copy new wams-config app
-    copy: src=lib/wams-config dest=/bin/ mode=0755
-    become: yes
-
-  - name: copy new videk app with updated software version
-    copy: src=lib/videk dest=/bin/ mode=0755
-    become: yes
-
-  - name: copy new videk rest api client
-    copy: src=python/videk_rest_client.py dest=/usr/lib/python2.7/
-    become: yes
-
-  - name: copy new videk systemd service
-    copy: src=systemd/videk.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new videk-register systemd service
-    copy: src=systemd/videk-register.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new spm systemd service
-    copy: src=systemd/spm.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new pmc systemd service
-    copy: src=systemd/pmc.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new spm-file systemd service
-    copy: src=systemd/spm-file.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new pmc-file systemd service
-    copy: src=systemd/pmc-file.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: copy new wams-config systemd service
-    copy: src=systemd/wams-config.service dest=/lib/systemd/system/
-    become: yes
-
-  - name: Creates pmc directory
-    file: path=/var/pmc state=directory owner=root group=edison mode=0775
-    become: yes
-
-  - name: copy pmc toggle file
-    copy: src=var/toggle dest=/var/pmc/
-
-  - name: systemctl daemon reload
-    shell: systemctl daemon-reload
-    become: yes
-
-  - name: stop spm service
-    shell: systemctl stop spm.service
-    become: yes
-
-  - name: stop pmc service
-    shell: systemctl stop pmc.service
-    become: yes
-
-  - name: disable spm service
-    shell: systemctl disable spm.service
-    become: yes
-
-  - name: disable pmc service
-    shell: systemctl disable pmc.service
-    become: yes
-
-  - name: stop videk service
-    shell: systemctl stop videk.service
-    become: yes
-
-  - name: disable videk service
-    shell: systemctl disable videk.service
-    become: yes
-
-  - name: enable wams-config service
-    shell: systemctl enable wams-config.service
-    become: yes
-
-  - name: start wams-config service
-    shell: systemctl start wams-config.service
+  - name: extract securededison
+    unarchive: src=securededison.tar.gz dest=/var/lib
     become: yes
