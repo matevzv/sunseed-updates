@@ -5,7 +5,7 @@ After=network-online.target edison-machine-id.service wams-config.service secure
 
 [Service]
 WorkingDirectory=/var/lib/securededison
-ExecStart=node-pkcs configure.js
+ExecStart=/usr/bin/node-pkcs app.js
 Restart=always
 RestartSec=5
 

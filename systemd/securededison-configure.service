@@ -6,7 +6,7 @@ After=set-hostname.service edison-machine-id.service set-docker-storage.service 
 [Service]
 Type=oneshot
 WorkingDirectory=/var/lib/securededison
-ExecStart=node-pkcs configure.js
+ExecStart=/usr/bin/node-pkcs configure.js
 ExecStartPost=/bin/systemctl disable securededison-configure
 
 [Install]

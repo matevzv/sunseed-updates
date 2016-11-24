@@ -37,6 +37,10 @@
     copy: src=systemd/securededison-configure.service dest=/lib/systemd/system/
     become: yes
 
+  - name: copy securededison systemd service
+    copy: src=systemd/securededison.service dest=/lib/systemd/system/
+    become: yes
+
   - name: copy new spm-file systemd service
     copy: src=systemd/spm-file.service dest=/lib/systemd/system/
     become: yes
