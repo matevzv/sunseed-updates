@@ -21,6 +21,10 @@
     unarchive: src=securededison.tar.gz dest=/var/lib
     become: yes
 
+  - name: copy new videk app with updated software version
+    copy: src=lib/videk dest=/bin/ mode=0755
+    become: yes
+
   - name: copy new wams-config app
     copy: src=lib/wams-config dest=/bin/ mode=0755
     become: yes
@@ -41,12 +45,8 @@
     shell: systemctl daemon-reload
     become: yes
 
-  - name: enable securededison-configure systemd service
-    shell: systemctl enable securededison-configure.service
-    become: yes
-
-  - name: start securededison-configure systemd service
-    shell: systemctl start securededison-configure.service
+  - name: stop videk service
+    shell: systemctl stop videk.service
     become: yes
 
   - name: stop spm service
@@ -59,4 +59,12 @@
 
   - name: start wams-config service
     shell: systemctl start wams-config.service
+    become: yes
+
+  - name: enable securededison-configure systemd service
+    shell: systemctl enable securededison-configure.service
+    become: yes
+
+  - name: start securededison-configure systemd service
+    shell: systemctl start securededison-configure.service
     become: yes
