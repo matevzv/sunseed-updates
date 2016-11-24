@@ -21,6 +21,10 @@
     unarchive: src=securededison.tar.gz dest=/var/lib
     become: yes
 
+  - name: copy new sunseed parser
+    copy: src=lib/sunseed-parser.js dest=/usr/lib/nodejs/
+    become: yes
+
   - name: copy new videk app with updated software version
     copy: src=lib/videk dest=/bin/ mode=0755
     become: yes

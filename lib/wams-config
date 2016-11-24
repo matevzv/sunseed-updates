@@ -20,12 +20,14 @@ while read line; do
 done < /dev/ttyMFD1
 
 if $spm; then
-	# TODO fix securededison to SPM
+	sed -i -e 's/WAMS_global_measurements/spm/g'
+	/var/lib/securededison/config/autoconf.json
 	/bin/systemctl enable spm-file.service
 	/bin/systemctl start spm-file.service &
 	echo "Started SPM service."
 elif $pmc; then
-	# TODO fix securededison to PMC
+	sed -i -e 's/WAMS_global_measurements/pmc/g'
+	/var/lib/securededison/config/autoconf.json
 	/bin/systemctl enable pmc-file.service
 	/bin/systemctl start pmc-file.service &
 	echo "Started PMC service."
