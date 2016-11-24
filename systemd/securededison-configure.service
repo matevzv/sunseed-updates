@@ -1,0 +1,13 @@
+[Unit]
+Description=Configures GTO security
+Requires=set-hostname.service
+After=set-hostname.service edison-machine-id.service set-docker-storage.service wams-config.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/var/lib/securededison
+ExecStart=node-pkcs configure.js
+ExecStartPost=/bin/systemctl disable securededison-configure
+
+[Install]
+WantedBy=basic.target

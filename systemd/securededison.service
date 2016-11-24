@@ -1,0 +1,13 @@
+[Unit]
+Description=Runs GTO secure measurement upload
+Requires=network-online.target
+After=network-online.target edison-machine-id.service wams-config.service securededison-configure.service
+
+[Service]
+WorkingDirectory=/var/lib/securededison
+ExecStart=node-pkcs configure.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=basic.target

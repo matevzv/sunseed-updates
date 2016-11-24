@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+/bin/stty -F /dev/ttyMFD1 115200 cs8 parodd -cstopb
+
+spm=false
+pmc=false
+
+while read line; do
+	if [[ "$line" == *"SPM"* ]]; then
+		echo "$line"
+		spm=true
+		echo "Configured SPM service."
+		break
+	elif [[ "$line" == *"PMC"* ]]; then
+		echo "$line"
+		pmc=true
+		echo "Configured PMC service."
+		break
+	fi
+done < /dev/ttyMFD1
+
+if $spm; then
+	# TODO fix securededison to SPM
+	/bin/systemctl enable spm-file.service
+	/bin/systemctl start spm-file.service &
+	echo "Started SPM service."
+elif $pmc; then
+	# TODO fix securededison to PMC
+	/bin/systemctl enable pmc-file.service
+	/bin/systemctl start pmc-file.service &
+	echo "Started PMC service."
+fi

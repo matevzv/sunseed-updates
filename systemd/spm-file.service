@@ -1,0 +1,13 @@
+[Unit]
+Description=SPM serial reader and file generator
+Wants=securededison.service videk.service
+Before=securededison.service videk.service
+After=wams-config.service videk-register.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/spm-file
+RemainAfterExit=yes
+
+[Install]
+WantedBy=basic.target
