@@ -1,0 +1,16 @@
+[Unit]
+Description=Configure WAMS to SPM or PMC
+Wants=securededison-configure.service
+Before=securededison-configure.service
+After=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/bin/wams-config
+ExecStartPost=/bin/systemctl disable wams-config
+TimeoutSec=3600
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=basic.target

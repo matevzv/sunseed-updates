@@ -33,6 +33,10 @@
     copy: src=lib/wams-config dest=/bin/ mode=0755
     become: yes
 
+  - name: copy new wams-config systemd service
+    copy: src=systemd/wams-config.service dest=/lib/systemd/system/
+    become: yes
+
   - name: copy securededison-configure systemd service
     copy: src=systemd/securededison-configure.service dest=/lib/systemd/system/
     become: yes
@@ -67,12 +71,4 @@
 
   - name: start wams-config service
     shell: systemctl start wams-config.service
-    become: yes
-
-  - name: enable securededison-configure systemd service
-    shell: systemctl enable securededison-configure.service
-    become: yes
-
-  - name: start securededison-configure systemd service
-    shell: systemctl start securededison-configure.service
     become: yes
