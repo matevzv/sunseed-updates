@@ -22,12 +22,11 @@ done < /dev/ttyMFD1
 autoconf=/var/lib/securededison/config/autoconf.json
 
 if $spm; then
-	sed -i -e 's/WAMS_global_measurements/spm/g' "$autoconf"
 	/bin/systemctl enable spm-file.service
 	/bin/systemctl start spm-file.service &
 	echo "Started SPM service."
 elif $pmc; then
-	sed -i -e 's/WAMS_global_measurements/pmc/g' "$autoconf"
+	sed -i -e 's/spm/pmc/g' "$autoconf"
 	/var/lib/securededison/config/autoconf.json
 	/bin/systemctl enable pmc-file.service
 	/bin/systemctl start pmc-file.service &
