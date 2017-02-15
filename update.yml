@@ -89,6 +89,22 @@
     shell: systemctl disable pmc.service
     become: yes
 
+  - name: stop spm-file service
+    shell: systemctl stop spm-file.service
+    become: yes
+
+  - name: stop pmc-file service
+    shell: systemctl stop pmc-file.service
+    become: yes
+
+  - name: disable spm-file service
+    shell: systemctl disable spm-file.service
+    become: yes
+
+  - name: disable pmc-file service
+    shell: systemctl disable pmc-file.service
+    become: yes
+
   - name: stop videk service
     shell: systemctl stop videk.service
     become: yes
