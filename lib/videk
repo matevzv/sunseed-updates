@@ -8,14 +8,14 @@ import os.path
 from datetime import datetime
 from videk_rest_client import Videk
 
-videk = Videk("http://localhost:3000", "dEjdS28qKZ4exzjzxSdaHI6tzlfuAzFE")
+videk = Videk("http://10.122.248.42:8080", "YrT/eiAxGYrQB7Pk1U6wbIOoYh8skneI")
 node = socket.gethostname()
 cluster = node[:node.rfind("-")]
 lat = 46.042767
 lon = 14.487632
 machine_id = open('/etc/machine-id').readline().strip()
 mac = open('/sys/class/net/eth0/address').read().strip()
-sw_version = "v3.0"
+sw_version = "v2.5"
 
 def uploadSensors(node_id, sensor_type, sensors):
     for sensor in sensors:
