@@ -62,6 +62,14 @@
     copy: src=systemd/wams-config.service dest=/lib/systemd/system/
     become: yes
 
+  - name: disable watchdog service
+    shell: systemctl disable watchdog-sample.service
+    become: yes
+
+  - name: setup watchdog in systemd
+    shell: echo "RuntimeWatchdogSec=90" >> /etc/systemd/system.conf
+    become: yes
+
   - name: systemctl daemon reload
     shell: systemctl daemon-reload
     become: yes
