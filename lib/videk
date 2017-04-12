@@ -15,7 +15,7 @@ lat = 46.042767
 lon = 14.487632
 machine_id = open('/etc/machine-id').readline().strip()
 mac = open('/sys/class/net/eth0/address').read().strip()
-sw_version = "v2.5"
+sw_version = "v3.5"
 
 def uploadSensors(node_id, sensor_type, sensors):
     for sensor in sensors:
