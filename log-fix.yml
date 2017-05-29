@@ -1,0 +1,15 @@
+---
+- hosts: all
+  remote_user: edison
+  tasks:
+  - name: delete all log files
+    shell: find /var/log -type f -delete
+    become: yes
+    
+  - name: restart rsyslog service
+    shell: systemctl restart rsyslog.service
+    become: yes
+
+  - name: copy modified logrotate configuration file
+    copy: src=rsyslog dest=/etc/logrotate.d/rsyslog
+    become: yes
